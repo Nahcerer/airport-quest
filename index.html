@@ -1,0 +1,513 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кодова комбінація</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="default-background">
+    <!-- Основний інтерфейс -->
+    <div class="default-interface">
+        <h1 class="main-hall">Main hall</h1>
+        <!-- Віконце білета -->
+        <div class="ticket hidden">
+            <h2>Flight Ticket</h2>
+            <label for="name">Passenger Name:</label>
+            <input type="text" id="name" placeholder="Your Name">
+            <label for="from">From:</label>
+            <input type="text" id="from" placeholder="Departure">
+            <label for="to">To:</label>
+            <input type="text" id="to" placeholder="Destination">
+            <button class="confirm-button">Confirm</button>
+        </div>
+    </div>
+
+    <!-- Секретний інтерфейс -->
+    <div class="secret-interface hidden">
+        <button class="back-button"></button>
+        <!-- Нові кнопки для альтернативного екрану -->
+        <button class="red_bag"></button>
+        <button class="green_bag"></button>
+        <button class="blue_bag"></button>
+        <button class="dark_blue_bag"></button>
+    </div>
+
+    <!-- музика скрімеру -->
+    <audio id="music" src="chill_music.mp3"></audio>
+
+    <!-- скрімер -->
+    <img id="screamer-image" class="screamer-image hidden" src="picture/chill_bro.jpg" alt="Special Image">
+
+
+    <!-- Кнопка для показу/сховування білета -->
+    <button class="toggle-ticket-button show-on-default">Show Ticket</button>
+
+    <!-- Зображення в лівому нижньому куті -->
+    <img src="picture/alien.png" alt="Alien Image" class="bottom-left-image">
+
+    <!-- Контейнер для варіантів діалогу -->
+    <div class="dialog-options hidden">
+        <button class="dialog-option" data-option="1">What is your name?</button>
+        <button class="dialog-option" data-option="2">Where are you flying from?</button>
+        <button class="dialog-option" data-option="3">Where are you flying to?</button>
+    </div>
+
+    <!-- Секція для нових зображень -->
+    <img src="picture/name.png" alt="Dialogue name" class="right-image hidden" id="image-1">
+    <img src="picture/go from.png" alt="Dialogue from" class="right-image hidden" id="image-2">
+    <img src="picture/go_to.png" alt="Dialogue to" class="right-image hidden" id="image-3">
+    <img src="picture/цезарь.png" alt="Additional Image" class="cesar-image hidden">
+    <img id="green-bag-image" src="picture/airport.png" alt="Green Bag Image" class="centered-image hidden">
+
+    <!-- Зображення на весь екран після успішної перевірки -->
+    <img id="fullscreen-image" src="picture/black.jpg" alt="Full Screen Image" class="fullscreen-image hidden">
+    <!-- Додайте елемент відео -->
+    <video id="success-video" class="hidden" autoplay muted loop>
+        <source src="intro.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+
+    <script>
+        // Показуємо/сховуємо варіанти діалогу при натисканні на зображення
+        const familyImage = document.querySelector('.bottom-left-image');
+        const dialogOptions = document.querySelector('.dialog-options');
+
+        // Робимо варіанти діалогу видимими одразу
+        dialogOptions.classList.remove('hidden');
+
+        // Додаємо обробник подій для зображення alien
+        familyImage.addEventListener('click', () => {
+            dialogOptions.classList.toggle('visible'); // Тогл видимості кнопок
+        });
+
+        // Додатковий стиль для видимості діалогу
+        if (!dialogOptions.classList.contains('visible')) {
+            dialogOptions.style.display = 'flex';
+        }
+    </script>
+
+
+
+
+    <script>
+
+        
+
+        // Функція перевірки введених даних
+        // Функція перевірки введених даних
+        // Оновлена функція перевірки введених даних
+        function validateTicket() {
+            // Отримуємо значення полів
+            const name = document.getElementById('name').value.trim();
+            const from = document.getElementById('from').value.trim();
+            const to = document.getElementById('to').value.trim();
+
+            // Правильні значення
+            const correctName = "Mamut Rahal";
+            const correctFrom = "Beijing";
+            const correctTo = "New York";
+
+            // Створюємо масив для зберігання помилок
+            let errorMessages = [];
+
+            // Перевірка введених значень
+            if (name !== correctName) {
+                errorMessages.push("Incorrect name!");
+            }
+            if (from !== correctFrom) {
+                errorMessages.push("Incorrect departure!");
+            }
+            if (to !== correctTo) {
+                errorMessages.push("Incorrect destination!");
+            }
+
+            // Якщо є помилки, виводимо повідомлення з деталями
+            if (errorMessages.length > 0) {
+                alert("Помилки: " + errorMessages.join(", "));
+                return false; // Якщо є помилки
+            } else {
+                // Приховуємо всі елементи інтерфейсу
+                document.querySelector('.default-interface').style.display = 'none';
+                document.querySelector('.secret-interface').style.display = 'none';
+                document.querySelector('.ticket').style.display = 'none';
+                document.querySelector('.toggle-ticket-button').style.display = 'none';
+                document.querySelector('.dialog-options').style.display = 'none';
+                document.querySelector('.bottom-left-image').style.display = 'none';
+
+                // Показуємо відео на весь екран
+                const successVideo = document.getElementById('success-video');
+                successVideo.classList.remove('hidden');
+
+                // Відтворюємо відео
+                successVideo.play();
+                successVideo.muted = false;
+                return true; // Якщо всі дані правильні
+            }
+        }
+        // Обробник події для кнопки "Confirm"
+        document.querySelector('.confirm-button').addEventListener('click', function (event) {
+            event.preventDefault(); // Запобігаємо відправці форми
+            if (validateTicket()) {
+                // Додаткові дії після успішної перевірки, якщо потрібно
+            }
+        });
+
+
+
+
+        // Оновлена функція toggleDialogOption
+        function toggleDialogOption(button, imageId) {
+            const allButtons = document.querySelectorAll('.dialog-option');
+            const isActive = button.classList.contains('active');
+
+            // Якщо це перша кнопка, змінюємо її текст
+            if (button.dataset.option === "1") {
+                const currentText = button.textContent.trim();
+                button.textContent = currentText === "What is your name?" ? "Ok." : "What is your name?";
+
+                // Керування зображенням, яке з'являється при натисканні кнопки
+                const additionalImage = document.querySelector('.cesar-image');
+                if (!isActive) {
+                    // Показуємо додаткове зображення
+                    additionalImage.classList.remove('hidden');
+                } else {
+                    // Приховуємо додаткове зображення
+                    additionalImage.classList.add('hidden');
+                }
+            }
+            else if (button.dataset.option === "3") {
+                const currentText = button.textContent.trim();
+                button.textContent = currentText === "Where are you flying to?" ? "Ok." : "Where are you flying to?";
+            }
+
+            else if (button.dataset.option === "2") {
+                const currentText = button.textContent.trim();
+                button.textContent = currentText === "Where are you flying from?" ? "Lets find it " : "Where are you flying from?";
+            }
+
+            // Скидаємо активність усіх кнопок
+            allButtons.forEach(btn => {
+                btn.classList.remove('active');
+                btn.style.display = 'block'; // Повертаємо видимість всіх кнопок
+            });
+
+            if (!isActive) {
+                // Якщо кнопка неактивна, активуємо її
+                button.classList.add('active');
+
+                // Ховаємо всі кнопки, крім натиснутої
+                allButtons.forEach(btn => {
+                    if (btn !== button) btn.style.display = 'none';
+                });
+
+                // Показуємо відповідне зображення
+                showImage(imageId);
+            } else {
+                // Якщо кнопка вже активна, скидаємо стан і ховаємо зображення
+                showImage(null); // Ховаємо всі зображення
+            }
+        }
+
+
+
+        // Додаємо обробники подій для кожної кнопки діалогу
+        document.querySelector('.dialog-option[data-option="1"]').addEventListener('click', function () {
+            toggleDialogOption(this, 'image-1');
+        });
+
+        document.querySelector('.dialog-option[data-option="2"]').addEventListener('click', function () {
+            toggleDialogOption(this, 'image-2');
+        });
+
+        document.querySelector('.dialog-option[data-option="3"]').addEventListener('click', function () {
+            toggleDialogOption(this, 'image-3');
+        });
+
+
+        // Оновлена функція showImage для ховання всіх зображень, якщо imageId = null
+        function showImage(imageId) {
+            const allImages = document.querySelectorAll('.right-image');
+
+            // Ховаємо всі зображення
+            allImages.forEach(image => {
+                image.classList.add('hidden');
+                image.classList.remove('show-right-image');
+            });
+
+            if (imageId) {
+                // Показуємо конкретне зображення
+                const selectedImage = document.getElementById(imageId);
+                selectedImage.classList.remove('hidden');
+                selectedImage.classList.add('show-right-image');
+            }
+        }
+
+
+
+
+        // Комбінація клавіш: стрілка вліво, вправо, вправо, вгору
+        const secretCode = ['ArrowLeft', 'ArrowRight', 'ArrowRight', 'ArrowUp'];
+        let userInput = [];
+
+        // Відстеження натискання клавіш
+        document.addEventListener('keydown', (event) => {
+            userInput.push(event.key);
+
+            // Обрізаємо масив, щоб він не перевищував довжину secretCode
+            if (userInput.length > secretCode.length) {
+                userInput.shift();
+            }
+
+            // Перевіряємо, чи збігається введення з комбінацією
+            if (JSON.stringify(userInput) === JSON.stringify(secretCode)) {
+                activateSecretInterface();
+            }
+        });
+
+        // Функція активації секретного інтерфейсу
+        function activateSecretInterface() {
+            document.querySelector('.default-interface').style.display = 'none';
+            const secretInterface = document.querySelector('.secret-interface');
+            secretInterface.classList.remove('hidden');
+            secretInterface.classList.add('fade-in');
+            document.body.classList.remove('default-background');
+            document.body.classList.add('secret-background');
+
+            // Показуємо кнопку повернення
+            document.querySelector('.back-button').style.display = 'block';
+
+            // Приховуємо зображення і кнопки діалогу
+            document.querySelector('.bottom-left-image').style.display = 'none';
+            document.querySelector('.dialog-options').style.display = 'none';
+
+            // Сховати всі зображення діалогу
+            const allImages = document.querySelectorAll('.right-image');
+            allImages.forEach(image => {
+                image.classList.add('hidden');
+                image.classList.remove('show-right-image');
+            });
+        }
+
+
+
+        // Функція повернення до стандартного інтерфейсу
+        function deactivateSecretInterface() {
+            document.querySelector('.default-interface').style.display = 'flex';
+            const secretInterface = document.querySelector('.secret-interface');
+            secretInterface.classList.add('hidden');
+            document.body.classList.remove('secret-background');
+            document.body.classList.add('default-background');
+
+            // Приховуємо кнопку повернення
+            document.querySelector('.back-button').style.display = 'none';
+
+            // Показуємо зображення і кнопки діалогу
+            document.querySelector('.bottom-left-image').style.display = 'block';
+            document.querySelector('.dialog-options').style.display = 'flex';
+        }
+
+        // Додаємо подію для кнопки
+        document.querySelector('.back-button').addEventListener('click', deactivateSecretInterface);
+
+        // Тогл кнопка для показу/сховування білета
+        const toggleTicketButton = document.querySelector('.toggle-ticket-button');
+        const ticketWindow = document.querySelector('.ticket');
+
+        toggleTicketButton.addEventListener('click', () => {
+            ticketWindow.classList.toggle('hidden');
+            // Змінюємо текст на кнопці в залежності від видимості білета
+            if (ticketWindow.classList.contains('hidden')) {
+                toggleTicketButton.textContent = 'On';
+            } else {
+                toggleTicketButton.textContent = 'Off';
+            }
+        });
+
+
+
+    </script>
+
+    <script>
+        let secondButtonClickCount = 0; // Лічильник натискань другої кнопки
+
+        document.querySelector('.dialog-option[data-option="2"]').addEventListener('click', function () {
+            secondButtonClickCount++;
+
+            if (secondButtonClickCount === 1) {
+                // При першому натисканні: змінюємо текст і приховуємо інші кнопки
+                this.textContent = "Lets find it";
+
+                const allButtons = document.querySelectorAll('.dialog-option');
+                allButtons.forEach(btn => {
+                    if (btn !== this) {
+                        btn.style.display = 'none';
+                    }
+                });
+            } else if (secondButtonClickCount === 2) {
+                // При другому натисканні: активуємо альтернативний секретний інтерфейс
+                activateAlternativeSecretInterface();
+            }
+        });
+
+        // Оновлена функція активації альтернативного секретного інтерфейсу
+        function activateAlternativeSecretInterface() {
+            document.querySelector('.default-interface').style.display = 'none';
+            const alternativeSecretInterface = document.querySelector('.secret-interface');
+            alternativeSecretInterface.classList.remove('hidden');
+            alternativeSecretInterface.classList.add('fade-in');
+
+            // Змінюємо фон на альтернативний секретний
+            document.body.classList.remove('default-background');
+            document.body.classList.add('alternative-secret-background');
+
+            // Сховати кнопку повернення та інші елементи
+            document.querySelector('.back-button').style.display = 'block';
+            document.querySelector('.dialog-options').style.display = 'none';
+
+            // Не приховувати зображення alien.png
+            document.querySelector('.bottom-left-image').style.display = 'block';
+
+            // Сховати всі зображення діалогу
+            const allImages = document.querySelectorAll('.right-image');
+            allImages.forEach(image => {
+                image.classList.add('hidden');
+                image.classList.remove('show-right-image');
+            });
+        }
+
+    </script>
+
+    <script>
+        // Функція активації альтернативного секретного інтерфейсу
+        function activateAlternativeSecretInterface() {
+            document.querySelector('.default-interface').style.display = 'none';
+            const alternativeSecretInterface = document.querySelector('.secret-interface');
+            alternativeSecretInterface.classList.remove('hidden');
+            alternativeSecretInterface.classList.add('fade-in');
+
+            // Змінюємо фон на альтернативний секретний
+            document.body.classList.remove('default-background');
+            document.body.classList.add('alternative-secret-background');
+
+            // Сховати кнопку повернення та інші елементи
+            document.querySelector('.back-button').style.display = 'block';
+            document.querySelector('.bottom-left-image').style.display = 'none';
+            document.querySelector('.dialog-options').style.display = 'none';
+
+            // Сховати всі зображення діалогу
+            const allImages = document.querySelectorAll('.right-image');
+            allImages.forEach(image => {
+                image.classList.add('hidden');
+                image.classList.remove('show-right-image');
+            });
+        }
+
+        // Оновлена функція для кнопки повернення в альтернативному інтерфейсі
+        function deactivateAlternativeSecretInterface() {
+            document.querySelector('.default-interface').style.display = 'flex';
+            const alternativeSecretInterface = document.querySelector('.secret-interface');
+            alternativeSecretInterface.classList.add('hidden');
+            document.body.classList.remove('alternative-secret-background');
+            document.body.classList.add('default-background');
+
+            // Приховуємо кнопку повернення
+            document.querySelector('.back-button').style.display = 'none';
+
+            // Показуємо зображення і кнопки діалогу
+            document.querySelector('.bottom-left-image').style.display = 'block';
+            document.querySelector('.dialog-options').style.display = 'flex';
+
+            // Скидаємо лічильник натискань на 0
+            secondButtonClickCount = 0; // Скидаємо лічильник
+        }
+
+        // Додаємо подію для кнопки повернення в альтернативному інтерфейсі
+        document.querySelector('.back-button').addEventListener('click', function () {
+            // Перевіряємо, чи активний альтернативний інтерфейс
+            if (document.body.classList.contains('alternative-secret-background')) {
+                deactivateAlternativeSecretInterface();
+            } else {
+                deactivateSecretInterface();
+            }
+        });
+
+        // Додаємо обробники для нових кнопок
+        document.querySelector('.red_bag').addEventListener('click', function () {
+            console.log('Red Bag selected');
+        });
+
+        document.querySelector('.blue_bag').addEventListener('click', function () {
+            console.log('Blue Bag selected');
+        });
+
+        // Отримуємо посилання на зображення та кнопки
+        const greenBagImage = document.getElementById('green-bag-image');
+        const allAlternativeButtons = document.querySelectorAll('.secret-interface button');
+
+        // Додаємо обробник для кнопки green_bag
+        document.querySelector('.green_bag').addEventListener('click', function () {
+            if (greenBagImage.classList.contains('hidden')) {
+                // Показуємо зображення
+                greenBagImage.classList.remove('hidden');
+                greenBagImage.classList.add('show');
+
+                // Блокуємо всі інші кнопки
+                allAlternativeButtons.forEach(button => {
+                    if (!button.classList.contains('green_bag')) {
+                        button.style.pointerEvents = 'none';
+                        button.style.opacity = '0.5'; // Візуально позначаємо недоступність
+                    }
+                });
+            } else {
+                // Ховаємо зображення
+                greenBagImage.classList.add('hidden');
+                greenBagImage.classList.remove('show');
+
+                // Відновлюємо доступність інших кнопок
+                allAlternativeButtons.forEach(button => {
+                    button.style.pointerEvents = 'auto';
+                    button.style.opacity = '1'; // Відновлюємо нормальний вигляд кнопок
+                });
+            }
+        });
+
+
+
+
+
+
+        document.querySelector('.dark_blue_bag').addEventListener('click', function () {
+            var music = document.getElementById('music');
+            var image = document.getElementById('screamer-image');
+
+            // Запускаємо музику
+            music.play();
+
+            // Показуємо зображення
+            image.classList.remove('hidden');
+            image.classList.add('show');
+
+            // Коли музика закінчується, ховаємо зображення
+            music.onended = function () {
+                image.classList.remove('show');
+                image.classList.add('hidden');
+            };
+        });
+
+
+
+
+
+
+
+
+
+
+    </script>
+
+
+
+</body>
+</html> 

@@ -1,0 +1,394 @@
+﻿/* Загальні стилі */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: white;
+    text-align: center;
+    background-size: cover;
+    background-position: center;
+    transition: background 0.5s;
+}
+
+/* Фони */
+.default-background {
+    background-image: url('picture/хол.png');
+}
+
+.secret-background {
+    background-image: url('picture/secret_backgroung.png');
+}
+
+/* Альтернативний секретний фон */
+.alternative-secret-background {
+    background-image: url('picture/хол2.png'); /* Вкажіть шлях до нового фону */
+}
+
+    /* Залишаємо зображення видимим навіть в альтернативному інтерфейсі */
+    .alternative-secret-background .bottom-left-image {
+        display: block !important;
+    }
+
+    /* Кнопки багажу тільки на альтернативному інтерфейсі */
+    .alternative-secret-background .red_bag,
+    .alternative-secret-background .green_bag,
+    .alternative-secret-background .blue_bag,
+    .alternative-secret-background .dark_blue_bag {
+        display: block; /* Зробимо кнопки видимими на альтернативному інтерфейсі */
+    }
+
+/* Залишаємо кнопки прихованими на всіх інших інтерфейсах */
+.red_bag,
+.green_bag,
+.blue_bag,
+.dark_blue_bag {
+    display: none;
+}
+
+
+/* Секції інтерфейсу */
+.default-interface, .secret-interface {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Секретний інтерфейс спочатку прихований */
+.hidden {
+    display: none;
+}
+
+/* Анімація появи */
+.fade-in {
+    display: flex;
+    animation: fadeIn 0.1s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Стилі кнопки */
+.back-button {
+    position: absolute;
+    top: -300px;
+    right: 650px;
+    background-color: transparent;
+    border: none;
+    padding: 15px 30px;
+    cursor: pointer;
+    display: none;
+}
+
+/* Кнопка для секретного інтерфейсу */
+.secret-interface .back-button {
+    display: block;
+    opacity: 100;
+}
+
+/* Стилі білета */
+.ticket {
+    position: fixed;
+    top: 20%;
+    right: 5%;
+    width: 300px;
+    padding: 20px;
+    background-color: #6495ED;
+    border-radius: 15px;
+    color: white;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+    .ticket.hidden {
+        display: none;
+    }
+
+    .ticket label {
+        display: block;
+        margin: 10px 0 5px;
+        font-size: 14px;
+    }
+
+    .ticket input {
+        width: 100%;
+        padding: 5px;
+        margin-bottom: 10px;
+        border: none;
+        border-radius: 5px;
+    }
+
+.confirm-button {
+    background-color: white;
+    color: #6495ED;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+    .confirm-button:hover {
+        background-color: #fff0f0;
+    }
+
+/* Стилі для Main hall */
+.main-hall {
+    color: #f2c11f;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
+    font-size: 36px;
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Стилі для кнопки для показу/сховування білета */
+.toggle-ticket-button {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background-color: #6495ED;
+    color: white;
+    padding: 10px 10px;
+    border: none;
+    border-radius: 100px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+    .toggle-ticket-button:hover {
+        background-color: #4973bf;
+    }
+
+/* Приховуємо кнопку на секретному інтерфейсі */
+.secret-interface .toggle-ticket-button {
+    display: none;
+}
+
+/* Показуємо кнопку тільки на основному інтерфейсі */
+.show-on-default {
+    display: block;
+}
+
+/* Стилі для зображення в лівому нижньому куті */
+.bottom-left-image {
+    position: fixed;
+    bottom: -230px;
+    left: 40px;
+    width: 390px; /* Можна змінити на бажаний розмір */
+    height: auto;
+    transition: transform 0.3s, opacity 0.3s;
+}
+
+/* Стилі для варіантів діалогу */
+.dialog-options {
+    position: fixed;
+    bottom: 100px;
+    left: calc(20px + 450px + 20px); /* Розміщуємо праворуч від зображення */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    opacity: 0; /* Спочатку кнопки сховані */
+    transition: opacity 0.3s ease-in-out; /* Плавна анімація появи */
+}
+
+.dialog-option {
+    background-color: #6495ED;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+    .dialog-option:hover {
+        background-color: #4973bf;
+    }
+
+/* Показуємо варіанти діалогу, коли зображення натискається */
+.dialog-options.visible {
+    opacity: 1; /* З'являються, коли клас visible додано */
+}
+
+/* Сховати зображення і кнопки діалогу при активації секретного інтерфейсу */
+.secret-interface .bottom-left-image,
+.secret-interface .dialog-options {
+    display: none;
+}
+
+/* Стилі для нового зображення */
+.right-image {
+    position: fixed;
+    bottom: 300px; /* Можна змінити розташування */
+    left: calc(40px + 220px + 30px); /* Розміщуємо праворуч від поточного зображення */
+    width: 280px; /* Можна змінити на бажаний розмір */
+    height: auto;
+    transition: transform 0.3s, opacity 0.3s;
+    opacity: 0; /* Спочатку зображення приховане */
+}
+
+/* Анімація появи для зображення */
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px); /* Початкове положення, щоб зображення рухалося з правого боку */
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Клас для показу зображення з анімацією */
+.show-right-image {
+    animation: fadeInRight 0.5s ease-in-out forwards;
+    opacity: 1;
+}
+
+/* Стилі для додаткового зображення */
+.cesar-image {
+    position: fixed;
+    bottom: -50px; /* Можна змінити на бажану висоту */
+    left: 0px;
+    width: 200px; /* Можна змінити на бажаний розмір */
+    height: auto;
+    transition: transform 0.3s, opacity 0.3s;
+    opacity: 0; /* Спочатку зображення приховане */
+}
+
+    /* Показуємо додаткове зображення */
+    .cesar-image:not(.hidden) {
+        opacity: 0.9;
+    }
+
+/* Стилі для нових кнопок на альтернативному екрані */
+.bag-button {
+    background-color: transparent;
+    color: white;
+    padding: 10px 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 10px;
+}
+
+.red_bag {
+    background-color: transparent;
+    position: absolute;
+    top: 118px;
+    right: 120px;
+    border: none;
+    padding: 40px 35px;
+    cursor: pointer;
+    display: none;
+}
+
+.green_bag {
+    background-color: transparent;
+    position: absolute;
+    top: 145px;
+    right: -426px;
+    border: none;
+    padding: 40px 30px;
+    cursor: pointer;
+    display: none;
+}
+
+.blue_bag {
+    position: absolute;
+    top: 105px;
+    right: -200px;
+    background-color: transparent;
+    border: none;
+    padding: 30px 30px;
+    cursor: pointer;
+    display: none;
+}
+
+.dark_blue_bag {
+    position: absolute;
+    top: 90px;
+    right: -680px;
+    background-color: transparent;
+    border: none;
+    padding: 23px 30px;
+    cursor: pointer;
+    display: none;
+}
+
+/* Оскільки ці кнопки з'являються тільки в альтернативному інтерфейсі, додамо таке правило */
+.secret-interface .bag-button {
+    display: block;
+}
+
+.screamer-image {
+    position: absolute;
+    top: -180px;
+    bottom: -50px;
+    left: 220px;
+    width: 1100px;
+    height: auto;
+    transition: transform 0.1s, opacity 0.5s;
+    opacity: 0; /* Спочатку зображення приховане */
+}
+
+    .screamer-image.show {
+        opacity: 1;
+        bottom: 100px; /* Наприклад, зміщуємо зображення вверх, щоб воно було видно */
+    }
+
+.centered-image {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 80%;
+    max-height: 80%;
+    z-index: 1000;
+    display: none;
+}
+
+    .centered-image.show {
+        display: block;
+    }
+
+.fullscreen-image {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Щоб зображення заповнювало весь екран */
+    z-index: 9999;
+    display: none; /* Спочатку сховано */
+}
+
+#success-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw; 
+    height: 100vh;
+    object-fit: cover;
+    z-index: 9999;
+    volume: 0.1;
+}
+
+.hidden {
+    display: none;
+}
+
